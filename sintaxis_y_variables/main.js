@@ -1,48 +1,49 @@
-let producto ="";
-let precio = 0;
-let seguirComprando = false;
-let cantidad = 0;
-let precioTotal = 0;
-
-function calcularPrecio(producto,precio){
-    return precioTotal += producto * precio;
-}
-do{
-    producto = prompt("Hola queres comprar Paquete, Album, Album tapa dura, Album y paquetes o todo?");
-    cantidad = parseInt(prompt("Cuántos queres comprar?"));
-
-    switch(producto){
-        case "Paquete" :
-            precio = 150;
-            break;
-
-        case "Album" :
-            precio = 750;
-            break;
-        
-        case "Album tapa dura":
-            precio = 3000;
-            break;
-
-        case "Album y paquetes":
-            precio = 900;
-            break;
-
-        default :
-            alert("Ningun producto fue seleccionado, por favor intente nuevamente");
-            precio = 0;
-            cantidad = 0;
+class Producto{
+    constructor(id, nombre, precio, categoria){
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.categoria = categoria;
     }
+}
+    let productos = [
+        new Producto (100, "Ryzen 7", 100, "procesador"),
+        new Producto (101, "intel i7", 150, "procesador"),
+        new Producto (102, "intel i9", 300, "procesador"),
+        new Producto (103, "rtx 3060", 400, "grafica"),
+        new Producto (104, "amd 6700", 500, "grafica"),
+    ];
 
-    calcularPrecio(precio,cantidad);
+    let categorias = ["procesador","grafica"];
+    let productosEnCarro = [];
+    let categoria = "";
 
-    seguirComprando = confirm("¿Querés agregar mas productos?");
+
+while (categoria != "salir" && categoria != null){
+    let aux = categorias.join (" o ");
+    categoria = prompt("Ingrese la categoria de producto que quiere comprar o ingrese salir para finalizar: \n(" + aux + ")");
+    
+    if (categoria != "salir" && categoria != null) {
+        let productosFiltradoPorCategoria = productos.filter(
+         (item) => item.categoria == categoria);
+
+        let cartel = "";
+        for (let i = 0; i < productosFiltradoPorCategoria.length; i++) {
+        cartel += 
+            " id: " +
+            productosFiltradoPorCategoria[i].id + 
+            " precio: " + 
+            productosFiltradoPorCategoria[i].precio + 
+            " " +
+            " producto: " +
+            productosFiltradoPorCategoria[i].nombre +
+            "\n"
+        }
         
-}while(seguirComprando);
+        let idSeleccionado = parseInt(prompt("Seleccione el id del producto que quiere comprar: \n\n" + cartel ));
+        let productosParaCarro = productosFiltradoPorCategoria.find(
+            item =>item.id === idSeleccionado);
 
-alert("El precio total es de: " + precioTotal);
-
-let FinCompra = confirm("¿Desea Finalizar Su Compra?");
-
-if(FinCompra) alert("Su compra fue realizada con exito");
-if(!FinCompra) alert("Vuelva pronto");
+        console.log(productosParaCarro);
+    }
+}
